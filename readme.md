@@ -4,3 +4,7 @@
 # Naykel Skills and Guidelines
 
 A collection of agent skills and guidelines that extend capabilities across planning, development, and tooling.
+
+```bash +code
+npx skills@latest add naykel76/skills-and-guidelines/grill-me
+```

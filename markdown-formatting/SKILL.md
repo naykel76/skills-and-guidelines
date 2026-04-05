@@ -1,6 +1,9 @@
 ---
 name: markdown-formatting
-description: Apply project markdown conventions including Torchlight code tags and markdownlint rules. Use whenever creating or editing any markdown file — do not wait for an explicit request.
+description: >-
+  Use this skill whenever creating or editing any markdown file. Do not wait
+  for an explicit request — if a markdown file is being created or edited,
+  this skill applies.
 ---
 
 ## General

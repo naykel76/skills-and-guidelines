@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"C:\\\\Users\\\\natha\\\\sites\\\\nk_jtb\\\\.ai\\\\prompts\")"
+    ]
+  }
+}

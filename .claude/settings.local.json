@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir -p \"C:\\\\Users\\\\natha\\\\sites\\\\nk_jtb\\\\.ai\\\\prompts\")"
+      "Bash(mkdir -p \"C:\\\\Users\\\\natha\\\\sites\\\\nk_jtb\\\\.ai\\\\prompts\")",
+      "Bash(del \"C:\\\\Users\\\\natha\\\\sites\\\\nk_jtb\\\\docs\\\\components\\\\checklist.md\")"
     ]
   }
 }

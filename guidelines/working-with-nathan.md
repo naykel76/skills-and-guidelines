@@ -67,6 +67,7 @@ follow the direction.
   existing code, docs, or agreed approach without raising them first.
 - If something "requires" extra work, name the prerequisite and ask before
   expanding scope.
+- Never remove a non-obviously-wrong comment without explicit approval.
 
 ## Execution Style
 

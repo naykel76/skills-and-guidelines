@@ -1,22 +1,10 @@
 ---
 name: livewire-index-component
 description: >-
-    Build Livewire Index components that display and manage resource collections.
-    Handles listing, searching, filtering, sorting, pagination, and actions on
-    records. Activates when creating resource listing pages, data tables, or browse
-    interfaces.
+  Use this skill whenever building a Livewire Index component to list, search,
+  sort, or paginate a resource collection. Do not wait for an explicit request
+  — if an index or listing component is being created, this skill applies.
 ---
-
-## When to use me
-
-- Creating a listing/index page for a resource
-- Building the main entry point for browsing records
-- User asks for searchable, sortable, or paginated lists
-
-## Foundation
-
-- Follow architecture priority from `naykel-laravel`.
-- Use `livewire-resource-config` for shared config semantics and button mappings.
 
 ## Related skills
 

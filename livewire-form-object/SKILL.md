@@ -1,26 +1,11 @@
 ---
 name: livewire-form-object
 description: >-
-    Build Form Objects that centralize form data, validation, and state management.
-    Handles field definitions, validation rules, error handling, and data
-    persistence separate from UI components. Activates when creating structured form
-    data containers, implementing validation logic, or managing form state and
-    submission.
+  Use this skill whenever building a Livewire Form Object to centralize form
+  data, validation, and state management separate from the UI component. Do
+  not wait for an explicit request — if a form object is being created or
+  modified, this skill applies.
 ---
-
-## Foundation
-
-- Follow architecture priority from `naykel-laravel`.
-- Build Form Objects inside the Gotime workflow, not as standalone generic
-  Livewire patterns.
-
-## When to use me
-
-- When form logic needs to be reused across multiple components
-- When forms are large and need better organization
-- When the same form is used in different contexts (create vs edit)
-- When unsure whether Gotime already covers the form use case, check this before
-  using raw Livewire patterns
 
 ## Related skills
 

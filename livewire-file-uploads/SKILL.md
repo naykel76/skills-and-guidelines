@@ -1,14 +1,8 @@
 ---
 name: livewire-file-uploads
 description: >-
-  Adds file upload capability to Livewire form components. Handles
-  temporary storage, validation, and persisting uploads.
+  Use this skill whenever adding file or image upload capability to a Livewire
+  form component. Do not wait for an explicit request — if a form component
+  needs file uploads, this skill applies.
 ---
 
-## When to use me
-
-- Forms need image/file upload fields
-
-## Foundation
-
-- Follow architecture priority from `naykel-laravel`.

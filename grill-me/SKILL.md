@@ -1,6 +1,8 @@
 ---
 name: grill-me
-description: Stress-test a plan or design through structured interviewing. Use when the user wants to pressure-test a plan, resolve design decisions, or mentions "grill me".
+description: >-
+  Use this skill whenever the user wants to pressure-test a plan, resolve
+  design decisions, or says "grill me".
 ---
 
 Interview me about this plan. Ask one question at a time.

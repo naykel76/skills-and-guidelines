@@ -1,15 +1,10 @@
 ---
 name: laravel-database-design
 description: >-
-  Creates database design documents that serve as source of truth for tables,
-  columns, and relationships. Uses these documents to generate migrations, models,
-  and factories. Activates when creating schemas, tables, models, migrations, or
-  factories.
+  Use this skill whenever creating or updating database schemas, tables,
+  migrations, models, or factories. Do not wait for an explicit request — if
+  any of these are being created or modified, this skill applies.
 ---
-
-## When to use me
-
-- Creating design documents, migrations, models, or factories.
 
 ## Standard column reference
 

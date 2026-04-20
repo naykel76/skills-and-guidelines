@@ -1,16 +1,9 @@
 ---
 name: code-review
 description: >-
-  Performs structured code reviews focused on architecture, readability,
-  maintainability, correctness, performance, and security. Activates when the
-  user asks for a code review, package review, PR review, or architectural audit.
+  Use this skill whenever the user asks for a code review, package review, PR
+  review, or architectural audit.
 ---
-
-## When to use me
-
-- User asks for a code review, package review, or PR review.
-- User asks for architectural feedback or maintainability risks.
-- User asks for refactor priorities from existing code.
 
 ## Intent
 

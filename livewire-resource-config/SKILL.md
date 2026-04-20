@@ -1,22 +1,11 @@
 ---
 name: livewire-resource-config
 description: >-
-    Define resource configuration in config/resources.php as the contract layer.
-    This contract can drive component implementation, scaffolding, and testing.
+  Use this skill whenever defining, reviewing, or modifying resource
+  configuration, scaffolding resource components from config, or before
+  modifying any resource-driven implementation. Do not wait for an explicit
+  request — if resource config is involved, this skill applies.
 ---
-
-## When to use me
-
-- Defining or changing resource behavior contracts
-- Creating or updating component config (any component type)
-- Scaffolding/generating resource components from config
-- Building tests/assertions from configured behavior
-- Before modifying any resource-driven implementation
-
-## Foundation
-
-- Follow architecture priority from `naykel-laravel`.
-- This skill assumes `naykel-laravel` is also loaded.
 
 ## What this is
 

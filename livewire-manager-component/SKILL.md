@@ -1,17 +1,9 @@
 ---
 name: livewire-manager-component
 description: >-
-  Build Livewire Manager components that orchestrate multiple features for a
-  single resource. Coordinates tabs, sections, or workflows without doing the
-  work itself.
+  Use this skill whenever building a Livewire Manager component that
+  orchestrates multiple features or sections for a single resource. Do not
+  wait for an explicit request — if a manager component is being created, this
+  skill applies.
 ---
 
-## When to use me
-
-- Creating a hub page with multiple sections or tabs
-- Coordinating different aspects of one resource
-- When each section has its own focused child component
-
-## Foundation
-
-- Follow architecture priority from `naykel-laravel`.

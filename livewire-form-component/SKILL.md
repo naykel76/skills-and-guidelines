@@ -1,16 +1,11 @@
 ---
 name: livewire-form-component
 description: >-
-    Build Livewire Form components for creating and editing records. Displays
-    structured input fields, handles user input and submission. Activates when
-    creating data entry forms, edit interfaces, or input screens.
+  Use this skill whenever creating or editing a Livewire form component for
+  data entry, create/edit interfaces, or modal forms. Do not wait for an
+  explicit request — if a form component is being built or modified, this
+  skill applies.
 ---
-
-## When to use me
-
-- Creating form interfaces for user interaction
-- Building create/edit/profile forms
-- Any component that renders a form (full-page or modal)
 
 ## Related skills
 

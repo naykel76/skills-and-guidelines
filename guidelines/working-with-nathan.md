@@ -83,6 +83,9 @@ follow the direction.
   decision to surface.
 - Keep responses concise. Avoid long explanations when the next action is
   already clear.
+- Do not summarise completed work. The result speaks for itself.
+- Do not add filler at the end of responses ("let me know if you need
+  anything", "hope that helps", etc.).
 
 ## Frustrations to Avoid
 
@@ -94,14 +97,14 @@ follow the direction.
 
 ## Session Management
 
-- Keep track of the main topic, current focus, queued items, parked tangents,
-  and open process steps throughout the session.
 - Work one issue at a time. Do not answer several unresolved points in a single
   response.
-- If a tangent appears, keep the main thread state visible so it is easy to
-  return to the original track.
-- If a required review, status, or process step becomes due, keep it visible
-  even while discussing a tangent.
+- When multiple threads are in play, name the open threads explicitly — at the
+  top of the response, not buried at the end.
+- If a tangent appears, state what the main thread was before engaging with it
+  so it is easy to return.
+- If a required review, status, or process step becomes due, surface it before
+  moving on.
 
 ## Skills and File References
 
@@ -112,6 +115,9 @@ follow the direction.
   resolving it from the repository root.
 - If the file still cannot be found, stop and ask before proceeding.
 - Do not make assumptions in place of missing references.
+- Reference files and code locations using markdown links:
+  `[filename.md](path/to/file.md)` or `[file.php:42](path/file.php#L42)`.
+  Never use plain text paths.
 
 ## Task Tracking
 
@@ -130,6 +136,9 @@ across sessions, especially when conversations branch or go off on tangents.
 - Things Nathan obviously knows
 - Vague reminders
 - Obvious next steps
+
+Write to `tasks.md` when a decision, finding, or parked item would otherwise
+be lost at the end of the session. Do not wait to be asked.
 
 Three buckets:
 

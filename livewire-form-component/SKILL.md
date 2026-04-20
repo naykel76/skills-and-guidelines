@@ -9,23 +9,22 @@ description: >-
 
 ## Related skills
 
-- livewire-resource-config
-- livewire-form-object
+- `livewire-resource-config` — owns button mappings and config behavior
+- `livewire-form-object` — owns form state, validation, and persistence
 
-## Contract boundary
+## Rules
 
-- `livewire-resource-config` owns shared config semantics and button mappings.
-- This skill implements form structure and behavior from that contract.
-- Do not redefine token semantics here.
-- Resolve configured actions in component/base layer, not direct config calls in
-  Blade.
-- If form config is incomplete, follow `livewire-resource-config`'s
-  incomplete-config workflow and surface any assumptions for review at the end
-  of the task.
+- Invoke this skill before reading any project files.
+- Read the resource config before building. If config is incomplete, follow
+  the incomplete-config workflow in `livewire-resource-config`.
+- Resolve configured actions in the component, not with direct config calls
+  in Blade.
+- Do not redefine button or action behavior here — that belongs to
+  `livewire-resource-config`.
 
-## Formatting defaults (review)
+## Layout defaults
 
-| Form area                | Default formatting                 | Notes                                                |
+| Form area                | Default                            | Notes                                                |
 | ------------------------ | ---------------------------------- | ---------------------------------------------------- |
 | primary text inputs      | left-aligned in content column     | Use for title/name/body-driving fields               |
 | status/toggle controls   | sidebar or grouped utility section | Keep publish/release/category-style toggles together |
@@ -33,12 +32,10 @@ description: >-
 | actions/footer           | right-aligned                      | Keep save/cancel actions grouped consistently        |
 | helper/secondary content | separate section or accordion      | Avoid mixing with primary identity fields            |
 
-## Implementation
+## Base structure
 
-### Base structure
-
-All form components extend `Naykel\Gotime\Livewire\BaseForm`  `BaseForm`
-provides `HasConfig`, `WithFormActions`, and the standard form lifecycle.
+Extend `BaseForm`. It provides config access, form actions, and the standard
+form lifecycle.
 
 ```php +code
 <?php
@@ -59,12 +56,12 @@ new class extends BaseForm
 };
 ```
 
-## Modal
+## Modal forms
 
 - Use a single modal controlled by `showModal`.
-- For delete/confirm workflows, use `selectedId` alongside `showModal`.
-- Use `BaseForm::formTitle()` for modal headings instead of inline title logic.
-- Use form submit baseline `wire:submit="save"`.
+- For delete/confirm flows, use `selectedId` alongside `showModal`.
+- Use `BaseForm::formTitle()` for modal headings.
+- Use `wire:submit="save"` as the form submit action.
 
 ```php +code
 new class extends BaseForm

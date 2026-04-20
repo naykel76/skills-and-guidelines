@@ -6,6 +6,10 @@ description: >-
   any of these are being created or modified, this skill applies.
 ---
 
+## Rules
+
+- Invoke this skill before reading any project files.
+
 ## Standard column reference
 
 Reference of standard column names, types, and naming conventions used across

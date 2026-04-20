@@ -8,41 +8,35 @@ description: >-
 
 ## Related skills
 
-- `livewire-resource-config`
-- `livewire-form-component`
+- `livewire-resource-config` — owns index config decisions and button mappings
+- `livewire-form-component` — used alongside index for create/edit modals
 
-## Implementation
+## Rules
 
-### Guard rails
+- Invoke this skill before reading any project files.
+- Read the resource config before building. If index config is incomplete,
+  follow the incomplete-config workflow in `livewire-resource-config`.
+- Preserve existing local UI component variants — do not replace them with
+  `x-gt-resource-action` unless explicitly asked.
+- Do not treat visual or component normalization as an implicit task.
+- When rendering a `show` action, target the public route — do not reuse the
+  admin route prefix. Pass the public prefix explicitly.
 
-- Preserve existing local UI component variants in index views.
-- If a project uses local action components (for example `x-gt-button.action`),
-  do not replace them with `x-gt-resource-action` unless explicitly requested.
-- Do not treat visual/component normalization as an implicit task.
-- Treat `livewire-resource-config` as the owner of index contract decisions. If
-  index config is incomplete, follow its incomplete-config workflow rather than
-  inventing undocumented behavior silently.
-- When rendering a `show` action from config, assume it targets a public-facing
-  route and pass the public route prefix explicitly rather than reusing the
-  admin resource prefix.
+## Formatting defaults
 
-### Formatting defaults
+| Column | Alignment |
+| ------ | --------- |
+| status | center    |
+| date   | center    |
 
-| Column | Alignment | Notes |
-| ------ | --------- | ----- |
-| status | center    |       |
-| date   | center    |       |
+## Table markup
 
-### Table markup readability
-
-- Prefer inline Blade attributes when a table header tag remains easy to scan.
-- Wrap attributes onto a second line when a table header becomes harder to read
-  on one line, especially for sortable headers with `wire:click`,
+- Use inline attributes when the header tag is easy to scan on one line.
+- Wrap attributes to a second line for sortable headers with `wire:click`,
   `:direction`, or alignment attributes.
-- Keep the visible column label on the same line as the closing `>` where
-  practical.
+- Keep the visible column label on the same line as the closing `>`.
 
-### Base structure
+## Base structure
 
 ```php +code
 use App\Models\Model;
@@ -64,12 +58,9 @@ new class extends BaseIndex
 }
 ```
 
-## Features
+## Search
 
-### Search
-
-- If config has `searchableFields`, add `Searchable` trait.
-- Apply search in `query()`.
+Add the `Searchable` trait when config has `searchableFields`.
 
 ```php +code
 protected function query($query)
@@ -79,10 +70,9 @@ protected function query($query)
 }
 ```
 
-### Sort
+## Sort
 
-- If config has `sortColumn`, add `Sortable` trait.
-- Apply sorting in `query()`.
+Add the `Sortable` trait when config has `sortColumn`.
 
 ```php +code
 protected function query($query)
@@ -92,7 +82,7 @@ protected function query($query)
 }
 ```
 
-### Combining features
+## Combined search and sort
 
 ```php +code
 use Naykel\Gotime\Traits\Searchable;
@@ -112,12 +102,11 @@ new class extends BaseIndex
 }
 ```
 
-### Pagination refresh after modal save
+## Pagination refresh after modal save
 
-- If the index is paginated and receives `model-saved` from modal create/edit,
-  add a refresh listener that calls `resetPage()`.
-- This avoids stale/empty pages after create/edit mutations.
-- Exception: only skip this if preserving current page is explicitly required.
+Add a `model-saved` listener that resets the page when the index is paginated
+and receives saves from a modal. Skip only if preserving the current page is
+explicitly required.
 
 ```php +code
 use Livewire\Attributes\On;

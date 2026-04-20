@@ -9,24 +9,20 @@ description: >-
 
 ## Related skills
 
-- `laravel-database-design` (schema constraints drive validation and typing)
-- `livewire-form-component` (form object consumption and action wiring)
-- `livewire-resource-config` (config-driven behavior and source of truth)
+- `laravel-database-design` — schema nullability and constraints drive validation
+- `livewire-form-component` — consumes the form object and wires actions
+- `livewire-resource-config` — source of truth for config-driven behavior
 
-## Contract boundary
+## Rules
 
-- Shared behavior semantics belong to `livewire-resource-config`.
-- This skill defines form state, validation, typing, and persistence only.
-- Do not define button/token semantics in this skill.
-
-## Rule of precedence
-
+- Invoke this skill before reading any project files.
 - Use Gotime patterns first: `BaseForm`, `Formable`, `Crudable`, and resource
   config.
-- Use raw Livewire-only approaches only when Gotime does not provide a suitable
-  pattern.
+- Fall back to raw Livewire only when Gotime has no suitable pattern.
+- Do not define button or action behavior here — that belongs to
+  `livewire-resource-config`.
 
-## Initial setup
+## Setup
 
 ```bash +code
 php artisan livewire:form ModelFormObject
@@ -52,41 +48,33 @@ class ModelFormObject extends Form
 }
 ```
 
-## Core traits
+## Traits
 
-- `Formable`
-  - Provides the form state baseline via `editing`.
-  - Supports initializing form properties from the model
-    (`setFormProperties(...)`).
+- `Formable` — provides form state via `editing` and initializes properties
+  from the model via `setFormProperties()`.
+- `Crudable` — handles validate + persist, including upload-aware saves when
+  storage config is present.
+- Use both together for standard form objects. Override save behavior only
+  when a genuinely non-standard persistence case exists.
 
-- `Crudable`
-  - Provides the standard persistence workflow (validate + persist).
-  - Handles upload-aware save behavior when storage config is present.
-
-- Use both traits together for standard form objects.
-- Override save behavior only when a real non-standard persistence case exists.
-- If trait behavior conflicts, use an explicit local override and document why.
-
-## Validation and typing rules
+## Validation
 
 - Use `#[Validate(...)]` on form properties.
-- Property types should match the expected model/data shape.
-- Foreign keys should use `exists:table,id` where applicable.
-- `required` / `nullable` validation must align with database nullability.
-- If DB constraints and form validation conflict, resolve the conflict before
-  implementation.
+- Property types must match the model/data shape.
+- Foreign keys should use `exists:table,id`.
+- `required` / `nullable` validation must match database nullability. Resolve
+  any conflict before implementing.
 
-## Formable caveat
+## `setFormProperties()` caveat
 
-- `setFormProperties()` converts `null` to `''` for `string` properties.
-- For nullable string/date form fields, set explicit values in `init(...)` after
-  `setFormProperties(...)`.
-- With native `date` / `datetime` casts + `HasFormattedDates`, assign form date
-  fields as formatted strings in `init(...)`.
+- Converts `null` to `''` for `string` properties.
+- For nullable string or date fields, set explicit values in `init()` after
+  calling `setFormProperties()`.
+- With native `date`/`datetime` casts and `HasFormattedDates`, assign date
+  fields as formatted strings in `init()`.
 
-## Exceptions
+## Overrides
 
-- Keep Gotime baseline patterns.
-- Apply explicit local overrides only when behavior requires it.
-- Document overrides at the implementation point (`init(...)` or component
-  method).
+- Apply local overrides only when behavior requires it.
+- Document the reason at the override point in `init()` or the component
+  method.

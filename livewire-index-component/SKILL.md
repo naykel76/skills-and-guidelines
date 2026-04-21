@@ -1,40 +1,23 @@
 ---
 name: livewire-index-component
 description: >-
-  Use this skill whenever building a Livewire Index component to list, search,
-  sort, or paginate a resource collection. Do not wait for an explicit request
-  — if an index or listing component is being created, this skill applies.
+  Use this skill whenever an index or listing component is being created or
+  modified. This skill MUST be invoked before reading any project files —
+  invoke it immediately when the request mentions an index component. Do not
+  wait for an explicit request — if an index component is involved, this skill
+  applies.
 ---
-
-## Related skills
-
-- `livewire-resource-config` — owns index config decisions and button mappings
-- `livewire-form-component` — used alongside index for create/edit modals
 
 ## Rules
 
 - Invoke this skill before reading any project files.
-- Read the resource config before building. If index config is incomplete,
-  follow the incomplete-config workflow in `livewire-resource-config`.
-- Preserve existing local UI component variants — do not replace them with
-  `x-gt-resource-action` unless explicitly asked.
-- Do not treat visual or component normalization as an implicit task.
-- When rendering a `show` action, target the public route — do not reuse the
-  admin route prefix. Pass the public prefix explicitly.
-
-## Formatting defaults
-
-| Column | Alignment |
-| ------ | --------- |
-| status | center    |
-| date   | center    |
-
-## Table markup
-
-- Use inline attributes when the header tag is easy to scan on one line.
-- Wrap attributes to a second line for sortable headers with `wire:click`,
-  `:direction`, or alignment attributes.
-- Keep the visible column label on the same line as the closing `>`.
+- Read the resource config before building.
+- Always include sort — add the `Sortable` trait and `applySorting()` to the query.
+- Only add features beyond the base structure if explicitly requested.
+- Build the table columns from `index.columns` in config — do not infer columns from the model.
+- Read `index.buttons` from config and render each button in the table row
+  actions cell using the button components defined in `livewire-resource-config`
+  — every button in config must appear in the blade, no more, no less.
 
 ## Base structure
 
@@ -58,31 +41,36 @@ new class extends BaseIndex
 }
 ```
 
-## Search
-
-Add the `Searchable` trait when config has `searchableFields`.
-
-```php +code
-protected function query($query)
-{
-    $query = $this->applySearch($query);
-    return $query;
-}
-```
-
 ## Sort
 
-Add the `Sortable` trait when config has `sortColumn`.
+Add the `Sortable` trait when sorting is required.
+
+```php +code
+use Naykel\Gotime\Traits\Sortable;
+
+new class extends BaseIndex
+{
+    use Sortable;
+
+    protected function query($query)
+    {
+        return $this->applySorting($query);
+    }
+}
+```
+
+## Search
+
+Add the `Searchable` trait when searching is required.
 
 ```php +code
 protected function query($query)
 {
-    $query = $this->applySorting($query);
-    return $query;
+    return $this->applySearch($query);
 }
 ```
 
-## Combined search and sort
+## Combining methods
 
 ```php +code
 use Naykel\Gotime\Traits\Searchable;
@@ -102,18 +90,36 @@ new class extends BaseIndex
 }
 ```
 
-## Pagination refresh after modal save
+## Blade template
 
-Add a `model-saved` listener that resets the page when the index is paginated
-and receives saves from a modal. Skip only if preserving the current page is
-explicitly required.
+```html +code-blade
+<div>
+    <!-- create button will be placed here. still some refinement needed -->
+    <x-gt-table>
+        <x-slot:thead>
+            <tr>
+                <x-gt-table.th wire:click="sortBy('column')" sortable :direction="$this->getSortDirection('column')"> Column </x-gt-table.th>
+                <x-gt-table.th> </x-gt-table.th>
+            </tr>
+        </x-slot:thead>
+        <x-slot:tbody>
+            @forelse($this->items as $item)
+                <tr wire:key="{{ $item->id }}">
+                    <td>{{ $item->column }}</td>
+                    <td class="whitespace-nowrap">
+                        <!-- Render buttons in the actions cell exactly as defined in `index.buttons` config. -->
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td class="tac pxy" colspan="10">No records found...</td>
+                </tr>
+            @endforelse
+        </x-slot:tbody>
+    </x-gt-table>
+    {{ $this->items->links('gotime::pagination.livewire') }}
 
-```php +code
-use Livewire\Attributes\On;
-
-#[On('model-saved')]
-public function refreshList(): void
-{
-    $this->resetPage();
-}
+    {{-- Include when form-modal is requested --}}
+    <livewire:admin::resource.form-modal />
+</div>
 ```

@@ -1,85 +1,101 @@
 ---
 name: livewire-resource-config
 description: >-
-  Use this skill whenever defining, reviewing, or modifying resource
-  configuration, scaffolding resource components from config, or before
-  modifying any resource-driven implementation. Do not wait for an explicit
-  request — if resource config is involved, this skill applies.
+  Use this skill whenever any Livewire component is being created or modified.
+  This skill MUST be invoked before reading any project files — invoke it
+  immediately when the request mentions index, form, form-modal, or any
+  Livewire component. Do not wait for an explicit request — if a Livewire
+  component is involved, this skill applies.
 ---
 
 ## Rules
 
 - Invoke this skill before reading any project files.
-- Read `config/resources.php` before implementing anything resource-driven.
-- Implement what config declares — do not infer behavior from preference.
-- If config keys are ambiguous, stop and resolve before proceeding.
-- Never change or extend resource config silently — surface any assumptions at
-  the end of the task and ask the user to confirm.
+- Check if `config/resources.php` exists for the requested component types.
+- If config does not exist, create it before building any component.
+- Determine buttons from the component types table. If the combination isn't in
+  the table, ask — never assume or infer.
+- If config exists, read it and implement from it exactly as written.
+- Do not modify existing config without explicit instruction.
+- If existing config conflicts with the request, stop and surface it — do not resolve it yourself.
+
+## Workflow
+
+```bash +code
+User prompt
+    ↓
+Identify component types (index, form, form-modal)
+    ↓
+Does config exist?
+    ├── yes → read it → implement exactly as written
+    │             ↓
+    │         conflicts with request? → stop and surface
+    │
+    └── no  → determine buttons from component types table
+                    ↓
+                combination not in table? → ask before proceeding
+                    ↓
+                columns/fields not specified? → ask: "specify or use sensible defaults?"
+                    ↓
+                create config (columns, fields, buttons)
+                    ↓
+                build components from config
+```
+
+## Routes
+
+- `routePrefix` is required when `index` or `form` is present.
+- `form-modal` does not require a `routePrefix`.
+- When `index` or `form` is requested, add routes to `routes/web.php`:
+
+```php +code
+Route::prefix('resources')->name('resources')->group(function () {
+    Route::livewire('/', 'admin::resource.index')->name('.index');
+    Route::livewire('/create', 'admin::resource.form')->name('.create');
+    Route::livewire('/{resource}/edit', 'admin::resource.form')->name('.edit');
+});
+```
 
 ## Config shape
-
-- Use the full Eloquent class for `model`.
-- `routePrefix` is required for route-based behavior; optional for modal-only
-  components.
-- Define only keys the resource actually needs.
 
 ```php +code
 'resource' => [
     'model' => \App\Models\Model::class,
     'routePrefix' => 'admin.resources',
-    'index' => [],
-    'form' => [],
-    'manager' => [],
+
+    'index' => [
+        'columns' => ['column'],
+        'buttons' => ['create', 'edit'],
+        'searchableFields' => ['column'], // optional — only include when search is explicitly requested
+        'sortColumn' => 'column',
+    ],
+
+    'form' => [
+        'fields' => ['field'],
+        'buttons' => ['save', 'cancel'],
+    ],
 ];
 ```
 
-## Button tokens
+## Component types and buttons
 
-Map config `buttons` values to component methods:
+The requested component types determine which buttons appear in the config:
 
-- `save` → `save`
-- `save-stay` → `saveAndEdit`
-- `save-and-edit` → `saveAndEdit`
-- `save-and-close` → `saveAndClose`
-- `cancel` → `cancel`
+| Requested components   | Index buttons                | Form buttons               |
+| ---------------------- | ---------------------------- | -------------------------- |
+| `index` + `form`       | `create`, `edit`             | `save`, `cancel`           |
+| `index` + `form-modal` | `create-modal`, `edit-modal` | `save-and-close`, `cancel` |
 
 ## Button components
 
 Map config `buttons` values to Blade components:
 
+- `cancel` → `<x-gt-button wire:click="cancel" class="btn sm" text="CANCEL" />`
 - `create-modal` → `<x-gt-resource-action action="create" :$routePrefix dispatchTo="admin::resource.form-modal" text="Add Resource" />`
 - `create` → `<x-gt-resource-action action="create" :$routePrefix />`
 - `edit-modal` → `<x-gt-resource-action action="edit" :id="$item->id" dispatchTo="admin::resource.form-modal" />`
 - `edit` → `<x-gt-resource-action action="edit" :$routePrefix :id="$item->id" />`
-- `show` → targets a public route, not the admin prefix. Pass the public route
-  prefix manually:
-  `<x-gt-resource-action action="show" routePrefix="resources" :slug="$item->slug" target="_blank" />`
-- `delete` → `<x-gt-resource-action action="delete" :id="$item->id" />`
-
-## Reviewing config vs implementation
-
-1. Read the resource config.
-2. Compare against the implementation.
-3. List mismatches only: resource, section, configured behavior, actual
-   implementation, difference.
-4. Apply fixes only after approval.
-
-## Incomplete config
-
-- Treat existing config as authoritative.
-- If config is missing details and the likely shape is straightforward, proceed
-  with sensible assumptions.
-- At the end of the task, list any values you assumed (buttons, columns, form
-  sections, route behavior) and ask the user to confirm.
-- If missing config has multiple valid interpretations or would lock in
-  important behavior, stop and ask first.
-
-## Overrides
-
-- Leave existing local component overrides (e.g. `x-gt-button.action`) as-is
-  unless asked to migrate.
-- If a button is non-standard for the current context, present the current
-  code, the recommended replacement, and the reason — then wait for approval
-  before changing it.
-- Exception: if the code has a note indicating migration is intended (e.g.
-  "can be removed/replaced"), treat it as approved.
+- `save-and-close` → `<x-gt-button wire:click="saveAndClose" class="btn primary sm" text="SAVE" />`
+- `save-edit` → `<x-gt-button wire:click="saveAndEdit" class="btn primary sm" text="SAVE" />`
+- `save-new` → `<x-gt-button wire:click="saveAndNew" class="btn primary sm" text="SAVE" />`
+- `save` → `<x-gt-button type="submit" class="btn primary sm" text="SAVE" />`

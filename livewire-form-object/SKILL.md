@@ -1,26 +1,70 @@
 ---
 name: livewire-form-object
 description: >-
-  Use this skill whenever building a Livewire Form Object to centralize form
-  data, validation, and state management separate from the UI component. Do
-  not wait for an explicit request — if a form object is being created or
-  modified, this skill applies.
+  Use this skill whenever a form component is being created or modified. This
+  skill MUST be invoked before reading any project files — invoke it
+  immediately when the request mentions a form component, as a form object is
+  always required. Do not wait for an explicit request — if a form component
+  is involved, this skill applies.
 ---
-
-## Related skills
-
-- `laravel-database-design` — schema nullability and constraints drive validation
-- `livewire-form-component` — consumes the form object and wires actions
-- `livewire-resource-config` — source of truth for config-driven behavior
 
 ## Rules
 
 - Invoke this skill before reading any project files.
-- Use Gotime patterns first: `BaseForm`, `Formable`, `Crudable`, and resource
-  config.
-- Fall back to raw Livewire only when Gotime has no suitable pattern.
-- Do not define button or action behavior here — that belongs to
-  `livewire-resource-config`.
+- Use Gotime patterns first: `Formable` and `Crudable`.
+- Name the form object `ModelFormObject` — not `ModelForm`.
+- Build form properties from `form.fields` in config — do not infer fields from the model, migration, or prompt.
+
+## Validation
+
+- Use `#[Validate(...)]` on form properties by default.
+- Only use a `rules()` method when unique constraints require `Rule::unique()->ignore()`.
+- `#[Validate(...)]` and `rules()` co-exist — use attributes on all other properties and `rules()` only for the unique-constrained fields.
+- `rules()` must be `protected`.
+- Pass the model instance to `->ignore()`, not the id: `->ignore($this->editing)`.
+- Property types must match the model/data shape.
+- Foreign keys should use `exists:table,id`.
+- `required` / `nullable` validation must match database nullability. Resolve any conflict before implementing.
+
+```php +code
+#[Validate('nullable|string|max:255')]
+public string $name = '';
+
+public string $code = ''; // validated in rules()
+
+#[Validate('nullable|string|max:255')]
+public string $headline = '';
+
+protected function rules(): array
+{
+    return [
+        'code' => ['required', 'string', 'max:255', Rule::unique('widgets', 'code')->ignore($this->editing)],
+    ];
+}
+```
+
+## Overrides
+
+- Apply local overrides only when behavior requires it.
+- Document the reason at the override point in `init()` or the component method.
+
+## `setFormProperties()` caveat
+
+- Converts `null` to `''` for `string` properties.
+- Declare nullable string properties as `string = ''` — `setFormProperties()` handles the null conversion correctly.
+- Only override in `init()` for special cases: date fields that require formatter methods.
+- With native `date`/`datetime` casts and `HasFormattedDates`, assign date fields as formatted strings in `init()`.
+
+```php +code
+public function init(Model $model): void
+{
+    $this->editing = $model;
+    $this->setFormProperties($this->editing);
+
+    // Date fields need formatter methods — setFormProperties() cannot handle these
+    $this->started_at = $model->started_at ? $model->startedAt() : null;
+}
+```
 
 ## Setup
 
@@ -29,8 +73,6 @@ php artisan livewire:form ModelFormObject
 ```
 
 ```php +code
-namespace App\Livewire\Forms;
-
 use App\Models\Model;
 use Livewire\Form;
 use Naykel\Gotime\Traits\Crudable;
@@ -47,34 +89,3 @@ class ModelFormObject extends Form
     }
 }
 ```
-
-## Traits
-
-- `Formable` — provides form state via `editing` and initializes properties
-  from the model via `setFormProperties()`.
-- `Crudable` — handles validate + persist, including upload-aware saves when
-  storage config is present.
-- Use both together for standard form objects. Override save behavior only
-  when a genuinely non-standard persistence case exists.
-
-## Validation
-
-- Use `#[Validate(...)]` on form properties.
-- Property types must match the model/data shape.
-- Foreign keys should use `exists:table,id`.
-- `required` / `nullable` validation must match database nullability. Resolve
-  any conflict before implementing.
-
-## `setFormProperties()` caveat
-
-- Converts `null` to `''` for `string` properties.
-- For nullable string or date fields, set explicit values in `init()` after
-  calling `setFormProperties()`.
-- With native `date`/`datetime` casts and `HasFormattedDates`, assign date
-  fields as formatted strings in `init()`.
-
-## Overrides
-
-- Apply local overrides only when behavior requires it.
-- Document the reason at the override point in `init()` or the component
-  method.

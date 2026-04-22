@@ -12,6 +12,7 @@
 - Only use a `rules()` method when unique constraints require `Rule::unique()->ignore()`.
 - `#[Validate(...)]` and `rules()` co-exist — use attributes on all other properties and `rules()` only for the unique-constrained fields.
 - `rules()` must be `protected`.
+- Place `rules()` before `init()` — validation before lifecycle methods.
 - Pass the model instance to `->ignore()`, not the id: `->ignore($this->editing)`.
 - Property types must match the model/data shape.
 - Foreign keys should use `exists:table,id`.

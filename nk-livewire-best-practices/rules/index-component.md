@@ -1,23 +1,12 @@
----
-name: livewire-index-component
-description: >-
-  Use this skill whenever an index or listing component is being created or
-  modified. This skill MUST be invoked before reading any project files —
-  invoke it immediately when the request mentions an index component. Do not
-  wait for an explicit request — if an index component is involved, this skill
-  applies.
----
+# Index Component
 
 ## Rules
 
-- Invoke this skill before reading any project files.
 - Read the resource config before building.
 - Always include sort — add the `Sortable` trait and `applySorting()` to the query.
 - Only add features beyond the base structure if explicitly requested.
 - Build the table columns from `index.columns` in config — do not infer columns from the model.
-- Read `index.buttons` from config and render each button in the table row
-  actions cell using the button components defined in `livewire-resource-config`
-  — every button in config must appear in the blade, no more, no less.
+- Read `index.buttons` from config and render each button in the table row actions cell using the button components defined in `rules/resource-config.md` — every button in config must appear in the blade, no more, no less.
 
 ## Base structure
 

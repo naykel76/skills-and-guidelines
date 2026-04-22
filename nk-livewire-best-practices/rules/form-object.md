@@ -1,16 +1,7 @@
----
-name: livewire-form-object
-description: >-
-  Use this skill whenever a form component is being created or modified. This
-  skill MUST be invoked before reading any project files — invoke it
-  immediately when the request mentions a form component, as a form object is
-  always required. Do not wait for an explicit request — if a form component
-  is involved, this skill applies.
----
+# Form Object
 
 ## Rules
 
-- Invoke this skill before reading any project files.
 - Use Gotime patterns first: `Formable` and `Crudable`.
 - Name the form object `ModelFormObject` — not `ModelForm`.
 - Build form properties from `form.fields` in config — do not infer fields from the model, migration, or prompt.

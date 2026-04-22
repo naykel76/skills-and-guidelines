@@ -1,18 +1,9 @@
----
-name: livewire-form-component
-description: >-
-  Use this skill whenever a form or form-modal component is being created or
-  modified. This skill MUST be invoked before reading any project files —
-  invoke it immediately when the request mentions a form component. Do not
-  wait for an explicit request — if a form component is involved, this skill
-  applies.
----
+# Form Component
 
 ## Rules
 
-- Invoke this skill before reading any project files.
 - Read the resource config before building.
-- Render buttons from config — use the form button tokens in `livewire-resource-config`.
+- Render buttons from config — use the form button tokens in `rules/resource-config.md`.
 
 ## Base structure
 
@@ -69,7 +60,7 @@ new class extends BaseForm
     <form wire:submit="save">
         {{-- fields from form-modal.fields config --}}
         <div class="tar">
-            {{-- buttons from form-modal.buttons config — see livewire-resource-config form button tokens --}}
+            {{-- buttons from form-modal.buttons config — see rules/resource-config.md form button tokens --}}
         </div>
     </form>
 </x-gt-modal>

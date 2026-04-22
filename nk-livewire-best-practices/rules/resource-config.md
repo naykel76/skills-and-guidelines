@@ -1,20 +1,10 @@
----
-name: livewire-resource-config
-description: >-
-  Use this skill whenever any Livewire component is being created or modified.
-  This skill MUST be invoked before reading any project files — invoke it
-  immediately when the request mentions index, form, form-modal, or any
-  Livewire component. Do not wait for an explicit request — if a Livewire
-  component is involved, this skill applies.
----
+# Resource Config
 
 ## Rules
 
-- Invoke this skill before reading any project files.
 - Check if `config/resources.php` exists for the requested component types.
 - If config does not exist, create it before building any component.
-- Determine buttons from the component types table. If the combination isn't in
-  the table, ask — never assume or infer.
+- Determine buttons from the component types table. If the combination isn't in the table, ask — never assume or infer.
 - If config exists, read it and implement from it exactly as written.
 - Do not modify existing config without explicit instruction.
 - If existing config conflicts with the request, stop and surface it — do not resolve it yourself.

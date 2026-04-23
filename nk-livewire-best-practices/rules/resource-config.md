@@ -89,3 +89,10 @@ Map config `buttons` values to Blade components:
 - `save-edit` → `<x-gt-button wire:click="saveAndEdit" class="btn primary sm" text="SAVE" />`
 - `save-new` → `<x-gt-button wire:click="saveAndNew" class="btn primary sm" text="SAVE" />`
 - `save` → `<x-gt-button type="submit" class="btn primary sm" text="SAVE" />`
+- `delete` → `<x-gt-resource-action action="delete" :id="$item->id" />`
+
+The `delete` token also requires a modal companion placed after pagination (or at the end of the component). The `WithFormActions` trait provides `selectedId`:
+
+```html +code-blade
+<x-gt-modal.delete wire:model="selectedId" :$selectedId />
+```

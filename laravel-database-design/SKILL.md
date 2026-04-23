@@ -9,6 +9,12 @@ description: >-
 ## Rules
 
 - Invoke this skill before reading any project files.
+- Before creating a migration, ask whether to update an existing/source
+  migration or create a new forward migration. Some projects intentionally
+  maintain source migrations during active development.
+- When a schema, migration, model relationship, factory, or database constraint
+  changes, update the project's schema/design document in the same task unless
+  the user explicitly says not to.
 
 ## Standard column reference
 

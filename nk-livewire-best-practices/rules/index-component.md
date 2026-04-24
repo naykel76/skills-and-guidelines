@@ -95,7 +95,7 @@ new class extends BaseIndex
             @forelse($this->items as $item)
                 <tr wire:key="{{ $item->id }}">
                     <td>{{ $item->column }}</td>
-                    <td class="whitespace-nowrap">
+                    <td class="whitespace-nowrap tar">
                         <!-- Render buttons in the actions cell exactly as defined in `index.buttons` config. -->
                     </td>
                 </tr>

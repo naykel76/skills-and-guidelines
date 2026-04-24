@@ -111,6 +111,14 @@ follow the direction.
 - When a skill system is available and a skill applies, invoke it before
   proceeding unless it conflicts with the user's explicit request.
 - Do not treat reading a `SKILL.md` file as a substitute for invoking the skill.
+- When updating prompts, guidelines, or skills, first identify the project's
+  source-of-truth file before editing.
+- Files under `.ai/` may be symlinks into a shared prompts/guidelines repo. If
+  so, update the symlink target.
+- Do not update matching copies in parallel or alternate locations unless they
+  are the confirmed source of truth or the user explicitly asks.
+- After changing project guidelines or adding/updating skills, run
+  `php artisan boost:update` in the project so the changes take effect.
 - When a skill or prompt references a file that cannot be read, first try
   resolving it from the repository root.
 - If the file still cannot be found, stop and ask before proceeding.

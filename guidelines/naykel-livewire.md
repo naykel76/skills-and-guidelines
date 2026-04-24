@@ -25,6 +25,14 @@
 - Name components as `{namespace}::{resource}.{type}`.
 - Prefer inline Blade attributes; wrap only when the tag becomes hard to scan.
 
+## Method ordering
+
+Always follow this order inside any component class:
+
+1. `configKey()` — always first
+2. Event listeners (`#[On(...)]` methods)
+3. `query()` — always last
+
 ## Guard rails
 
 - If naming or structure is ambiguous, stop and confirm.

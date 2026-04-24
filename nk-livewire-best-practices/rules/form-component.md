@@ -94,7 +94,7 @@ new class extends BaseForm
 ```html +code-blade
 <x-gt-modal wire:model="showModal">
     <h4>{{ $this->formTitle() }}</h4>
-    <form wire:submit="save">
+    <form>
         {{-- fields from form-modal.fields config --}}
         <div class="tar">
             {{-- buttons from form-modal.buttons config — see rules/resource-config.md form button tokens --}}
@@ -102,3 +102,5 @@ new class extends BaseForm
     </form>
 </x-gt-modal>
 ```
+
+Do not add `wire:submit="save"` to form-modal forms. Save is handled by the button actions (`saveAndClose`, `saveAndEdit`, etc.) — adding `wire:submit` risks double-firing.

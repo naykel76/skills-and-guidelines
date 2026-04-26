@@ -34,8 +34,8 @@ Keep logical order when creating new tables.
 | headline     | varchar(255)    | Yes      | -       | Featured headline/tagline     |
 | intro        | mediumText      | Yes      | -       | Short introductory text       |
 | content      | longText        | Yes      | -       | Main body content             |
-| image_name   | varchar(255)    | Yes      | -       | Stored image filename         |
-| file_name    | varchar(255)    | Yes      | -       | Stored file name              |
+| image_path   | varchar(255)    | Yes      | -       | Stored image path         |
+| file_path    | varchar(255)    | Yes      | -       | Stored file path              |
 | price        | bigint unsigned | Yes      | -       | Product price in cents        |
 | stock        | bigint unsigned | No       | 0       | Quantity available            |
 | quantity     | bigint unsigned | No       | 1       | Quantity for order details    |

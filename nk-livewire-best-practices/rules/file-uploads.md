@@ -28,7 +28,7 @@ Add to the form object class body (not inside a method):
 ```php +code
 public array $storage = [
     'disk'     => 'public',         // default: 'public'
-    'dbColumn' => 'image_name',     // default: 'file_name'
+    'dbColumn' => 'image_path',     // default: 'file_path'
     'path'     => 'uploads/images', // default: '' (root)
 ];
 ```
@@ -47,8 +47,8 @@ Add to the model when image preview is needed:
 ```php +code
 public function featuredImageUrl(): string
 {
-    return $this->image_name
-        ? Storage::disk('media')->url($this->image_name)
+    return $this->image_path
+        ? Storage::disk('media')->url($this->image_path)
         : url('/svg/placeholder.svg');
 }
 ```

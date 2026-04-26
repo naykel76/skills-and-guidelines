@@ -58,6 +58,12 @@ follow the direction.
 - **Name it before fixing it** — if something needs prerequisite work, say what
   and why before doing it
 
+## Consistency First
+
+- Check what the codebase already does before applying any rule or pattern.
+- Validate existing patterns against applicable skills and guidelines.
+- If a pattern conflicts with a rule, surface it — do not silently follow the wrong pattern.
+
 ## Scope Discipline
 
 - Do not add adjacent improvements, refactors, cleanup, renaming, formatting,
@@ -105,6 +111,12 @@ follow the direction.
   so it is easy to return.
 - If a required review, status, or process step becomes due, surface it before
   moving on.
+
+## Naykel Conventions
+
+- When reviewing guidelines, skills, or conventions in a Naykel project, assume
+  they apply across all Naykel projects unless explicitly marked as
+  project-specific. Do not treat them as local decisions without evidence.
 
 ## Skills and File References
 

@@ -36,13 +36,13 @@ Does config exist?
 
 - `routePrefix` is required when `index` or `form` is present.
 - `form-modal` does not require a `routePrefix`.
-- When `index` or `form` is requested, add routes to `routes/web.php`:
+- When `index` or `form` is requested, add routes to `routes/web.php`.
 
 ```php +code
 Route::prefix('resources')->name('resources')->group(function () {
     Route::livewire('/', 'admin::resource.index')->name('.index');
     Route::livewire('/create', 'admin::resource.form')->name('.create');
-    Route::livewire('/{resource}/edit', 'admin::resource.form')->name('.edit');
+    Route::livewire('/{resource:id}/edit', 'admin::resource.form')->name('.edit');
 });
 ```
 

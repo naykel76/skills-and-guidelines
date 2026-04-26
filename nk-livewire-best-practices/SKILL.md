@@ -10,12 +10,6 @@ description: >-
 
 Patterns and conventions for Livewire components built on the Naykel Gotime framework.
 
-## Consistency First
-
-Before applying any rule, check what the application already does. Follow sibling Gotime Livewire components and existing resource config unless they conflict with the request or this skill.
-
-These rules are defaults for when no local pattern exists yet, not overrides.
-
 ## Config First
 
 Before building any component, the resource config must exist and be read. All structure — columns, fields, buttons — is derived from config, never inferred from models, migrations, or the prompt.

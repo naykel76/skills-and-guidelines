@@ -61,6 +61,9 @@ protected function query($query)
 
 ## Combining methods
 
+Each assignment must do one thing. Eager loading, sorting, and searching each
+get their own line — never combine them into a single chained assignment.
+
 ```php +code
 use Naykel\Gotime\Traits\Searchable;
 use Naykel\Gotime\Traits\Sortable;
@@ -71,6 +74,7 @@ new class extends BaseIndex
 
     protected function query($query)
     {
+        $query = $query->with('relation');
         $query = $this->applySorting($query);
         $query = $this->applySearch($query);
 

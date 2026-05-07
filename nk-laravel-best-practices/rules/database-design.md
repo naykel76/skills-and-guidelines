@@ -1,14 +1,7 @@
----
-name: laravel-database-design
-description: >-
-  Use this skill whenever creating or updating database schemas, tables,
-  migrations, models, or factories. Do not wait for an explicit request — if
-  any of these are being created or modified, this skill applies.
----
+# Database Design
 
 ## Rules
 
-- Invoke this skill before reading any project files.
 - Before creating a migration, ask whether to update an existing/source
   migration or create a new forward migration. Some projects intentionally
   maintain source migrations during active development.
@@ -34,7 +27,7 @@ Keep logical order when creating new tables.
 | headline     | varchar(255)    | Yes      | -       | Featured headline/tagline     |
 | intro        | mediumText      | Yes      | -       | Short introductory text       |
 | content      | longText        | Yes      | -       | Main body content             |
-| image_path   | varchar(255)    | Yes      | -       | Stored image path         |
+| image_path   | varchar(255)    | Yes      | -       | Stored image path             |
 | file_path    | varchar(255)    | Yes      | -       | Stored file path              |
 | price        | bigint unsigned | Yes      | -       | Product price in cents        |
 | stock        | bigint unsigned | No       | 0       | Quantity available            |

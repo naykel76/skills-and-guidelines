@@ -100,8 +100,8 @@ description: >-
 
 ## Convention Compliance
 
-If an `agents.md` or similar conventions file exists at the project root, read
-it before reviewing.
+If a `CLAUDE.md`, `AGENTS.md`, or similar conventions file exists at the
+project root, read it before reviewing.
 
 - Follow local project guidance before general framework preferences.
 - When a local convention differs from Laravel, Livewire, or package defaults,

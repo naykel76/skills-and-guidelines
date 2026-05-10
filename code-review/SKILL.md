@@ -1,8 +1,10 @@
 ---
 name: code-review
 description: >-
-  Use this skill whenever the user asks for a code review, package review, PR
-  review, or architectural audit.
+  Use this skill whenever the user asks for a code review, package review, or
+  architectural audit. Delivers severity-ranked findings with evidence and
+  fixes, not general advice. Always saves the review as a markdown file and
+  returns a concise summary in chat.
 ---
 
 ## Intent
@@ -16,12 +18,7 @@ description: >-
 ## Communication Style
 
 - Use plain language. Avoid jargon when a simpler phrase works.
-- Keep each finding short and concrete.
 - Do not offer alternate report versions unless the user explicitly asks.
-- Do not defer actionable fixes to a follow-up format.
-- Prefer concise output over exhaustive templates when the issue is simple.
-- Put findings first. Summaries are secondary.
-- Order findings by severity, then by confidence.
 - Avoid hedging, consultancy tone, and explanatory filler.
 - Do not pad findings with soft language such as "makes it hard to reason
   about", "the only real decision is", or similar framing.
@@ -31,9 +28,9 @@ description: >-
 - For a package review, treat the package as a bounded unit and aim for deeper,
   more confident coverage within that boundary.
 - For an application review, do not imply full file-by-file coverage unless you
-  actually performed it. Prioritise entry points, boundaries, changed files,
-  and the highest-risk areas, then state coverage limits only when they
-  materially affect confidence in the findings.
+  actually performed it. Prioritise entry points, boundaries, changed files, and
+  the highest-risk areas, then state coverage limits only when they materially
+  affect confidence in the findings.
 - Treat the scope section as a boundary statement, not an investigation log.
 - Do not list every file, route, controller, or component examined unless the
   user explicitly asks for that level of detail.
@@ -48,7 +45,6 @@ description: >-
      request. Ask only if the scope is genuinely unclear.
    - Note known exclusions explicitly before reviewing.
    - Identify the review mode:
-     - `PR review` for changed files or a branch diff
      - `Package/component review` for a bounded subsystem
      - `Application audit` for broad maintainability or architecture review
 
@@ -60,8 +56,8 @@ description: >-
      defect.
    - Check surrounding usage before calling something broken, dead, duplicated,
      or inconsistent.
-   - In large repos, prioritise entry points, boundaries, and changed files
-     over full traversal.
+   - In large repos, prioritise entry points, boundaries, and changed files over
+     full traversal.
 
 3. **Produce findings per the output template**
    - Weaknesses first, strengths optional and brief.
@@ -72,12 +68,12 @@ description: >-
 
 ## False-Positive Guard Rails
 
-- Treat documented local patterns, overrides, and Gotime-first architecture as
-  intentional unless there is direct evidence they are causing risk.
+- Treat documented local patterns and overrides as intentional unless there is
+  direct evidence they are causing risk.
 - Do not report a finding that conflicts with project guidance or a documented
   exception.
-- If something looks suspicious but may be intentional, present it as a
-  question or assumption, not a defect.
+- If something looks suspicious but may be intentional, present it as a question
+  or assumption, not a defect.
 - Do not turn preference differences into findings.
 - Do not flag missing abstraction, config-driven behavior, or refactors unless
   there is a concrete maintenance, correctness, or reuse problem.
@@ -100,16 +96,12 @@ description: >-
 
 ## Convention Compliance
 
-If a `CLAUDE.md`, `AGENTS.md`, or similar conventions file exists at the
-project root, read it before reviewing.
+If a `CLAUDE.md`, `AGENTS.md`, or similar conventions file exists at the project
+root, read it before reviewing.
 
 - Follow local project guidance before general framework preferences.
-- When a local convention differs from Laravel, Livewire, or package defaults,
-  treat that as intentional unless the code creates a real risk.
-- Read `todo.md` at the project root if it exists and treat relevant
-  feature-specific notes as known review context, not fresh findings, unless
-  the user asks to revisit them or the risk has materially changed.
-- Do not use `current-tasks.md` as review context. It is for active work only.
+- When a local convention differs from framework or package defaults, treat that
+  as intentional unless the code creates a real risk.
 
 ## Exclusions
 
@@ -129,86 +121,85 @@ project root, read it before reviewing.
 
 ## Finding Discipline
 
-- All findings must follow the same structure. Do not switch to ad hoc
-  `Issue`/`Fix` blocks for some dimensions and a different format for others.
+- All findings must use the finding format defined below. Do not switch between
+  formats for different dimensions or severity levels.
 - Do not report low-value or repetitive findings that do not materially change
   risk, behaviour, or maintainability.
 - Keep `Impact` to one sentence maximum.
-- Keep `Fix` to one sentence maximum unless the issue is `Critical` and a
-  longer recommendation is necessary to avoid ambiguity.
+- Keep `Fix` to one sentence maximum unless the issue is `Critical` and a longer
+  recommendation is necessary to avoid ambiguity.
 - Only include a `Trade-off` when there is a real downside, decision, or
   implementation risk that materially affects the recommendation.
 - Recommendations should say what to change. Do not drift into design coaching
   unless the implementation choice is the actual issue.
+- Put findings first. Summaries are secondary.
+- Order findings by severity, then by confidence.
+- Severity rubric:
+  - `Critical`: active or near-certain impact to data integrity, auth
+    boundaries, or production availability.
+  - `High`: credible exploit or major correctness risk with meaningful
+    business/user impact.
+  - `Medium`: real defect with bounded impact or required preconditions.
+  - `Low`: minor risk, hard-to-trigger edge case, or low-impact maintainability
+    concern.
 
-## Default Output Template
+## Finding Format
 
-Use this by default for chat responses and small reviews:
+Use this format for every finding:
 
-1. **Findings**
-   - List findings first, ordered by severity.
-   - Use this format:
-     - `### Critical - Certificate endpoint has no ownership check`
-     - `- **Impact:** ...`
-     - `- **Evidence:** ...`
-     - `- **Fix:** ...`
-   - Use `Critical`, `High`, `Medium`, or `Low` exactly in the heading.
-   - Keep the heading to one sentence.
+```
+### {Severity} — {One-sentence description}
+- **Impact:** ...
+- **Evidence:** ...
+- **Fix:** ...
+- **Trade-off:** ...  ← only when a real downside or decision matters
+```
 
-2. **Open Questions or Assumptions**
-   - Include only when needed to avoid false positives.
+Severity must be exactly one of: `Critical`, `High`, `Medium`, `Low`.
 
-3. **Brief Summary**
-   - Short overall assessment
-   - Residual risk or testing gaps if no findings are present
+## Output
 
-## Extended Output Template
+Always save the review as a markdown file in the application root. Return a
+concise summary in chat with the report path.
 
-Use the extended structure only when the user asks for a written report or when
-the scope is large enough to justify it, such as a package review or
-application audit.
+Filename: `code-review-{agent}-YYMMDD.md`. If that name exists, append `-2`,
+`-3`, etc.
 
-Always save the report as markdown file in the application root. Do this for
-every review, not only when explicitly requested.
+Return a concise summary in chat with the report path. Do not paste the full
+report into chat unless the user explicitly asks.
 
-Use this structure in order for extended reviews:
+Do not use inline review directives (e.g. `::code-comment`) unless the user
+explicitly requests them.
+
+Structure, in order:
 
 1. **Scope Reviewed**
    - Review type and target
    - Coverage strategy or review boundary
    - Exclusions or meaningful limits
-   - Keep this section to 2 to 4 bullets maximum
+   - 2–4 bullets maximum
 
-2. **Findings**
-   - Ordered by severity, then by confidence.
-   - Group by dimension only if it improves readability.
-   - Use concise findings by default:
-     - `### Critical - Certificate endpoint has no ownership check`
-     - `- **Impact:** ...`
-     - `- **Evidence:** ...`
-     - `- **Fix:** ...`
-     - `- **Trade-off:** ...` only when a real downside or decision matters
-   - Expand only for high-risk issues where extra context materially helps.
+2. **Findings** — ordered by severity, using the finding format above.
 
-3. **Top Architectural Risks** (up to 5, only for broad reviews)
+3. **Top Architectural Risks** — up to 5, broad reviews only.
 
-4. **Top Refactor Priorities** (up to 5, only for broad reviews)
+4. **Top Refactor Priorities** — up to 5, broad reviews only.
 
-5. **Next Sprint Action Plan** (only for broad reviews)
-   - 3 to 7 items, highest value first
-   - For each item include:
-     - **Action:** specific change to make
-     - **Why now:** immediate benefit/risk reduction
-     - **Effort:** `S`, `M`, or `L`
-     - **First step:** exact starting task
+5. **Next Sprint Action Plan** — broad reviews only; 3–7 items, highest value
+   first. For each item:
+   - **Action:** specific change to make
+   - **Why now:** immediate benefit or risk reduction
+   - **Effort:** `S`, `M`, or `L`
+   - **First step:** exact starting task
 
-6. **Maintainability Risk:** `Low`, `Moderate`, or `High` with reasoning
+6. **Maintainability Risk:** `Low`, `Moderate`, or `High` with reasoning.
 
 7. **Cross-Boundary Coupling Risk:** `Low`, `Moderate`, or `High` with
-   reasoning
+   reasoning.
 
 ## No-Finding Reviews
 
 - If no findings are discovered, say so explicitly.
-- Still mention meaningful residual risks, unreviewed areas, or testing gaps.
+- Still mention meaningful residual risks, unreviewed areas, or testing gaps
+  in prose — do not use the finding format for these.
 - Do not pad the response with generic best practices.

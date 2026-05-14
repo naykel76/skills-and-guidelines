@@ -29,24 +29,13 @@ they conflict.
   properties AND shows a quickstart, split it.
 - **Code-first.** Add prose only when behaviour is non-obvious or context is
   needed.
-- **No `## Introduction` heading.** The lead is the introduction.
-- Do not include process notes, review commentary, or TODOs in published docs.
-- **No horizontal rules (`---`).** Use headings and spacing instead.
 
-## Lead Quality
+## Document Structure
 
-Every doc starts with a title and a one-line lead. The lead names what the page
-covers and the outcome for the reader.
-
-Watch out for leads that open with `Configure`, `Manage`, `Handle` — they
-usually mean the sentence hasn't landed on a concrete object or outcome yet.
-
-**Bad:** Set the disk your uploads use, and make sure the same disk is used when
-the app generates file URLs.
-
-**Good:** Gotime stores uploaded files on a Laravel filesystem disk. This page
-covers how to configure that disk for local storage or S3, including URL
-generation for each environment.
+- Every doc starts with a title and a short lead.
+- The lead should say what the page covers and what the reader gets from it.
+- Keep it concrete and free of filler.
+- Do not add a separate `## Introduction` section.
 
 ## Nav Management
 
@@ -56,53 +45,12 @@ generation for each environment.
 - Keep nav labels and sections minimal. Add structure back only as docs are
   reviewed and agreed.
 
-## Completion Follow-Through
+## Quick Reference
 
-- When a doc is confirmed complete, remove `(wip)` from its nav label.
+Read the relevant rule file before responding — do not rely on summaries alone.
 
-## Doc Types
+### Component Docs → `rules/component-docs.md`
 
-Choose based on what is being documented.
-
-| Type | Use for |
-|------|---------|
-| **Component** | Named component, trait, guide, or reference within a package |
-| **Reference** | Operational and technical docs — commands, tools, workflows |
-
-### Component
-
-Show minimum working usage first.
-
-```markdown
-1. ## Basic Usage
-2. ## Properties     ← reference table
-3. Additional sections as needed
-```
-
-Rules:
-
-- Properties table immediately after basic usage.
-- Add sections only for behaviour that needs explanation beyond the table.
-- For traits, add a short "When to Use" paragraph before Basic Usage.
-- For guides, use numbered steps not bullet points. One goal per guide.
-- For reference docs, omit Basic Usage — go straight to the reference tables.
-
-### Reference
-
-For operational and technical documentation — commands, tools, workflows,
-cheatsheets.
-
-```markdown
-1. Prerequisites or assumptions (if needed)
-2. ## Section per operation or topic
-       ### Syntax
-       ### Example
-       ### In a Script (if applicable)
-```
-
-Rules:
-
-- Group by operation, not by implementation detail.
-- Syntax + Example is the default pattern per operation.
-- For cheatsheets, keep it dense and scannable.
-- List assumptions at the top.
+- Single-component pages
+- Multi-component pages
+- Variants and component families

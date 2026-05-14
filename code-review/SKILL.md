@@ -77,6 +77,11 @@ description: >-
 - Do not turn preference differences into findings.
 - Do not flag missing abstraction, config-driven behavior, or refactors unless
   there is a concrete maintenance, correctness, or reuse problem.
+- Do not flag missing null guards or defensive checks on internal methods when
+  the invalid input is already blocked at the calling boundary. Trace the call
+  graph before raising the finding. Guards belong at the boundary (Livewire
+  actions, controllers, public API entry points); internal methods should trust
+  their callers.
 
 ## Core Dimensions
 

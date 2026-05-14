@@ -17,7 +17,8 @@ they conflict.
 - Mark every new heading with `(review)` until its content is confirmed.
 - When you update a section carrying `(review)`, ask: "[Section name] has been
   updated. Is this section complete?"
-- On confirmation: remove the `(review)` tag.
+- On confirmation: remove the `(review)` tag, update the project status file,
+  and remove `(wip)` from the nav entry if the doc is now fully complete.
 - Leave `(review)` on any headings that are still unresolved.
 - When all `(review)` tags are gone from a doc, it is considered complete.
 - When closing documentation work, call out which headings or docs still carry

@@ -15,8 +15,8 @@ they conflict.
 ## Review Workflow
 
 - Mark every new heading with `(review)` until its content is confirmed.
-- When you update a section carrying `(review)`, ask: "[Section name] has been
-  updated. Is this section complete?"
+- When you update a section carrying `(review)`, ask whether that section is
+  complete.
 - On confirmation: remove the `(review)` tag, update the project status file,
   and remove `(wip)` from the nav entry if the doc is now fully complete.
 - Leave `(review)` on any headings that are still unresolved.
@@ -34,6 +34,8 @@ they conflict.
 ## Document Structure
 
 - Every doc starts with a title and a short lead.
+- Write the lead as normal markdown prose, not raw HTML like
+  `<p class="lead">...</p>`.
 - The lead should say what the page covers and what the reader gets from it.
 - Keep it concrete and free of filler.
 - Do not add a separate `## Introduction` section.

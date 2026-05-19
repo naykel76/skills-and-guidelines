@@ -29,9 +29,9 @@ Use when the page groups several related components or variants under one topic.
 
 ### Structure
 
-**Multi-component page:** Repeat the single-component structure for each
-component, shifted down one heading level. The page title (`#`) becomes the
-group, each component becomes `##`, and its sections become `###`.
+1. Shared title and lead for the group
+2. Each component becomes a `##` section
+3. Repeat the single-component structure inside each one using `###` headings
 
 ### Rules
 

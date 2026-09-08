@@ -34,8 +34,7 @@ they conflict.
 ## Document Structure
 
 - Every doc starts with a title and a short lead.
-- Write the lead as normal markdown prose, not raw HTML like
-  `<p class="lead">...</p>`.
+- Write the lead as `<p class="lead">...</p>`.
 - The lead should say what the page covers and what the reader gets from it.
 - Keep it concrete and free of filler.
 - Do not add a separate `## Introduction` section.

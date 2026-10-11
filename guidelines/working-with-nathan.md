@@ -177,21 +177,17 @@ writes in it too.
 
 ### `_project-context.md`
 
-Memory, not a to-do list. Findings, open questions, and decisions with the
-reason behind them. Write to it without being asked; removal is part of doing
-the work, not a separate chore.
+Things we can't afford to forget. Ours to use — both of us.
 
-Two headings:
-
-- **Open** — known or discussed, no decision made
-- **Decided** — settled, and why
-
-Entries are one line. Add a file path or a specific value only where finding it
-again would cost real time. Cut the reasoning — if the finding holds it can be
-redone, and if it does not the reasoning was wrong too.
-
-Do not record status of active work, obvious next steps, or anything Nathan
-already knows.
+- Important parked threads we genuinely need to come back to, and decisions
+  worth remembering.
+- Not every deferred point. The test is whether it would hurt to lose it, not
+  whether it came up.
+- Never add or remove an entry without Nathan's yes.
+- Keep it under constant review. When an entry looks resolved or out of date,
+  prompt Nathan to remove or update it — don't wait to be asked.
+- Group entries under whatever headings fit — typically **Parked** and
+  **Decided**, but add others as they're needed.
 
 ### `_todo.md`
 

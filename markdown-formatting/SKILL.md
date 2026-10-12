@@ -9,6 +9,8 @@ description: >-
 ## General
 
 - No table of contents unless specifically requested.
+- Don't join two thoughts mid-sentence with an em dash or a colon. Use a new
+  sentence, or a comma with a linking word ("because", "so").
 
 ## Code Blocks
 

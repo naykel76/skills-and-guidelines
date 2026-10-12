@@ -16,7 +16,7 @@ Before building any component, the resource config must exist and be read. All s
 
 If config exists, implement exactly as written. If it conflicts with the request, stop and surface the conflict — do not resolve it yourself.
 
-## Quick Reference
+## Rule Files
 
 Read the relevant rule file before building. Summaries below are defaults only — full rules take precedence.
 
@@ -63,7 +63,7 @@ Read the relevant rule file before building. Summaries below are defaults only �
 
 ## How to Apply
 
-Read the relevant rule files before responding — do not rely on the Quick Reference summaries alone.
+Read the relevant rule files before responding — do not rely on the Rule Files summaries alone.
 
 1. Identify the component types being built: index, form, form-modal, form object, file uploads
 2. Read `rules/resource-config.md` first — config drives everything

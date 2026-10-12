@@ -15,7 +15,7 @@ Naykel-specific patterns and rules for Laravel code. These extend the general
 `laravel-best-practices` skill — apply both, with this skill taking precedence
 where they conflict.
 
-## Quick Reference
+## Rule Files
 
 Read the relevant rule file before responding — do not rely on summaries alone.
 

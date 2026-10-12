@@ -47,7 +47,7 @@ they conflict.
 - Keep nav labels and sections minimal. Add structure back only as docs are
   reviewed and agreed.
 
-## Quick Reference
+## Rule Files
 
 Read the relevant rule file before responding — do not rely on summaries alone.
 

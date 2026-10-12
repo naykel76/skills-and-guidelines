@@ -97,7 +97,7 @@ One-line context for what this skill governs.
 State the single most important rule here — the one that must be followed
 regardless of which rule file is read. Omit this section if no such rule exists.
 
-## Quick Reference
+## Rule Files
 
 Read the relevant rule file before proceeding. Summaries below are for
 navigation only — the rule files take precedence.

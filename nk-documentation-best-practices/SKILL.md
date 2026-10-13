@@ -17,8 +17,9 @@ they conflict.
 - Mark every new heading with `(review)` until its content is confirmed.
 - When you update a section carrying `(review)`, ask whether that section is
   complete.
-- On confirmation: remove the `(review)` tag, update the project status file,
-  and remove `(wip)` from the nav entry if the doc is now fully complete.
+- On confirmation: remove the `(review)` tag and update the project status file.
+- Remove `(wip)` from the nav entry once the doc's structure is agreed, even if
+  some sections still carry `(review)`.
 - Leave `(review)` on any headings that are still unresolved.
 - When all `(review)` tags are gone from a doc, it is considered complete.
 - When closing documentation work, call out which headings or docs still carry
@@ -41,7 +42,6 @@ they conflict.
 
 ## Nav Management
 
-- Only add docs to nav after the doc or section has been reviewed and agreed.
 - When starting work on a doc not yet in the nav, add it in its real category
   with `(wip)` suffixed to the name so it is accessible during development.
 - Keep nav labels and sections minimal. Add structure back only as docs are

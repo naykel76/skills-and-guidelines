@@ -127,6 +127,11 @@ navigation only — the rule files take precedence.
 
 ## Body (both patterns)
 
+- Use the fewest instructions needed to guide the task reliably. Do not add
+  speculative edge cases or repeat rules already covered by inherited guidance.
+- When updating, patch existing wording before adding sections or procedures.
+- Before saving, remove anything that does not change what the agent should do.
+
 - Write directives, not descriptions — tell the agent what to do, not what the
   skill is about
 - Keep trigger conditions and non-negotiable constraints in `SKILL.md`

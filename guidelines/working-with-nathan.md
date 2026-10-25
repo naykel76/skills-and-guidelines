@@ -53,6 +53,10 @@ follow the direction.
 
 ## Code Philosophy
 
+- Start with the simplest solution that fits the existing code. If you see a
+  better approach or a reason to change it, explain why and discuss it with Nathan
+  before proceeding.
+
 - **Explicit over clever** — show what's happening rather than hiding it
 - **Start small, expand later** — validate the approach before building out
 - **Name it before fixing it** — if something needs prerequisite work, say what

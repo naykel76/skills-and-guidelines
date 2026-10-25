@@ -12,6 +12,8 @@ Shared documentation rules across all Naykel projects. Project-specific skills
 extend this one — apply both, with the project skill taking precedence where
 they conflict.
 
+The following rules apply to published documentation.
+
 ## Review Workflow
 
 - Mark every new heading with `(review)` until its content is confirmed.
@@ -56,3 +58,7 @@ Read the relevant rule file before responding — do not rely on summaries alone
 - Single-component pages
 - Multi-component pages
 - Variants and component families
+
+### Internal Guidelines → `rules/guidelines.md`
+
+- Conventions, prompts, and workflows

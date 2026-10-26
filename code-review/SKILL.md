@@ -11,67 +11,51 @@ description: >-
 
 - Perform analysis only unless the user explicitly asks for edits.
 - Prioritize actionable, evidence-based findings over general advice.
-- Optimize for high-signal findings, not exhaustive commentary.
-- Default to review behavior that matches the active agent instructions unless
-  the user asks for a different report shape.
 
 ## Communication Style
 
-- Use plain language. Avoid jargon when a simpler phrase works.
-- Do not offer alternate report versions unless the user explicitly asks.
-- Avoid hedging, consultancy tone, and explanatory filler.
+- Use plain language. Avoid jargon, hedging, consultancy tone, and explanatory
+  filler.
 - Do not pad findings with soft language such as "makes it hard to reason
   about", "the only real decision is", or similar framing.
+- Do not offer alternate report versions unless the user explicitly asks.
 
-## Scope Expectations
+## Scope
 
+- Infer the target path, package, component, or changed files from the request.
+  Ask only if the scope is genuinely unclear.
+- Identify the review mode:
+    - `Package/component review` for a bounded subsystem
+    - `Application audit` for broad maintainability or architecture review
 - For a package review, treat the package as a bounded unit and aim for deeper,
   more confident coverage within that boundary.
-- For an application review, do not imply full file-by-file coverage unless you
-  actually performed it. Prioritise entry points, boundaries, changed files, and
-  the highest-risk areas, then state coverage limits only when they materially
-  affect confidence in the findings.
+- For an application review or a large repo, prioritise entry points,
+  boundaries, changed files, and the highest-risk areas. Do not imply full
+  file-by-file coverage unless you actually performed it, and state coverage
+  limits only when they materially affect confidence in the findings.
 - Treat the scope section as a boundary statement, not an investigation log.
-- Do not list every file, route, controller, or component examined unless the
-  user explicitly asks for that level of detail.
-- Do not repeat file-level detail that is already covered in findings.
-- Keep scope concise. State review type, coverage strategy, and meaningful
-  exclusions or limits only.
+  State review type, coverage strategy, and meaningful limits only. Do not list
+  every file, route, controller, or component examined, and do not repeat
+  file-level detail already covered in findings.
+- Respect user-provided exclusions exactly, and note them before reviewing.
+- If exclusions conflict with a requested output section, remove the section and
+  note why.
 
-## Review Workflow
+## Explore Before Judging
 
-1. **Define scope first**
-   - Infer the target path, package, component, or changed files from the
-     request. Ask only if the scope is genuinely unclear.
-   - Note known exclusions explicitly before reviewing.
-   - Identify the review mode:
-     - `Package/component review` for a bounded subsystem
-     - `Application audit` for broad maintainability or architecture review
-
-2. **Explore before judging**
-   - Read directory structure first.
-   - Read key entry points and supporting files.
-   - Avoid conclusions from a single file when behaviour spans multiple files.
-   - Read local conventions and project guidance before flagging a pattern as a
-     defect.
-   - Check surrounding usage before calling something broken, dead, duplicated,
-     or inconsistent.
-   - In large repos, prioritise entry points, boundaries, and changed files over
-     full traversal.
-
-3. **Produce findings per the output template**
-   - Weaknesses first, strengths optional and brief.
-   - No generic advice without code evidence.
-   - Prefer root-cause fixes over style-only commentary.
-   - Only report issues you can defend with concrete code evidence or a clear
-     behavioural risk.
+- Read directory structure first, then key entry points and supporting files.
+- Avoid conclusions from a single file when behaviour spans multiple files.
+- Check surrounding usage before calling something broken, dead, duplicated,
+  or inconsistent.
 
 ## False-Positive Guard Rails
 
-- Treat documented local patterns and overrides as intentional unless there is
-  direct evidence they are causing risk.
-- Do not report a finding that conflicts with project guidance or a documented
-  exception.
+- Read `CLAUDE.md`, `AGENTS.md`, or a similar conventions file at the project
+  root before reviewing.
+- Follow local project guidance before general framework preferences. Treat
+  documented local patterns, overrides, and conventions that differ from
+  framework or package defaults as intentional unless there is direct evidence
+  they are causing risk.
 - If something looks suspicious but may be intentional, present it as a question
   or assumption, not a defect.
 - Do not turn preference differences into findings.
@@ -99,21 +83,6 @@ description: >-
   or there is concrete evidence of exposure, trust-boundary failure, or unsafe
   data handling.
 
-## Convention Compliance
-
-If a `CLAUDE.md`, `AGENTS.md`, or similar conventions file exists at the project
-root, read it before reviewing.
-
-- Follow local project guidance before general framework preferences.
-- When a local convention differs from framework or package defaults, treat that
-  as intentional unless the code creates a real risk.
-
-## Exclusions
-
-- Respect user-provided exclusions exactly.
-- If exclusions conflict with a requested output section, remove the section and
-  note why.
-
 ## Evidence Standard
 
 - Prefer exact file and line references when available.
@@ -126,10 +95,14 @@ root, read it before reviewing.
 
 ## Finding Discipline
 
-- All findings must use the finding format defined below. Do not switch between
-  formats for different dimensions or severity levels.
+- All findings must use the finding format below. Do not switch between formats
+  for different dimensions or severity levels.
 - Do not report low-value or repetitive findings that do not materially change
   risk, behaviour, or maintainability.
+- Only report issues you can defend with concrete code evidence or a clear
+  behavioural risk.
+- Prefer root-cause fixes over style-only commentary.
+- Weaknesses first. Strengths are optional and brief.
 - Keep `Impact` to one sentence maximum.
 - Keep `Fix` to one sentence maximum unless the issue is `Critical` and a longer
   recommendation is necessary to avoid ambiguity.
@@ -137,18 +110,20 @@ root, read it before reviewing.
   implementation risk that materially affects the recommendation.
 - Recommendations should say what to change. Do not drift into design coaching
   unless the implementation choice is the actual issue.
-- Put findings first. Summaries are secondary.
+- Place findings before summaries and recommendations.
 - Order findings by severity, then by confidence.
-- Severity rubric:
-  - `Critical`: active or near-certain impact to data integrity, auth
-    boundaries, or production availability.
-  - `High`: credible exploit or major correctness risk with meaningful
-    business/user impact.
-  - `Medium`: real defect with bounded impact or required preconditions.
-  - `Low`: minor risk, hard-to-trigger edge case, or low-impact maintainability
-    concern.
 
-## Finding Format
+## Severity and Finding Format
+
+Severity must be exactly one of: `Critical`, `High`, `Medium`, `Low`.
+
+- `Critical`: active or near-certain impact to data integrity, auth boundaries,
+  or production availability.
+- `High`: credible exploit or major correctness risk with meaningful
+  business/user impact.
+- `Medium`: real defect with bounded impact or required preconditions.
+- `Low`: minor risk, hard-to-trigger edge case, or low-impact maintainability
+  concern.
 
 Use this format for every finding:
 
@@ -160,12 +135,35 @@ Use this format for every finding:
 - **Trade-off:** ...  ← only when a real downside or decision matters
 ```
 
-Severity must be exactly one of: `Critical`, `High`, `Medium`, `Low`.
+## Package Review Procedure
+
+Use this procedure when the review identifies a package status file. It is a
+shared working convention across packages, not a requirement to complete every
+package capability before use.
+
+- Establish the required behaviour and relevant reference example.
+- Check the maintained source, application overrides, directly related pieces,
+  documentation, and existing status entries.
+- Separate issues blocking the current use from review work that can wait.
+- Use the package's coverage table and status key. `✅` means confirmed against
+  source and documented; `review` means documented but not yet confirmed;
+  `n/a` means not needed; blank means review coverage has not started, not that
+  an implementation is absent.
+- Keep coverage entries as a lasting record. Record outstanding findings under
+  the relevant component using the finding format above.
+- Update coverage only when supported by verification and documentation.
+  Working in an application does not establish package review completion.
+- Do not remove findings without approval; raise entries that appear resolved.
+- Discuss proposed implementation changes before making them unless already
+  authorised. When changes are authorised, verify them, update the relevant
+  documentation, and then update coverage.
 
 ## Output
 
-Always save the review as a markdown file in the application root. Return a
-concise summary in chat with the report path.
+When a package status file is specified, maintain that file using the Package
+Review Procedure above. Do not create a separate dated report.
+
+Otherwise, save a dated review in the application root using the format below.
 
 Filename: `code-review-{agent}-YYMMDD.md`. If that name exists, append `-2`,
 `-3`, etc.
@@ -176,7 +174,7 @@ report into chat unless the user explicitly asks.
 Do not use inline review directives (e.g. `::code-comment`) unless the user
 explicitly requests them.
 
-Structure, in order:
+For dated reports, use this structure:
 
 1. **Scope Reviewed**
    - Review type and target

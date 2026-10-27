@@ -33,10 +33,10 @@ description: >-
   boundaries, changed files, and the highest-risk areas. Do not imply full
   file-by-file coverage unless you actually performed it, and state coverage
   limits only when they materially affect confidence in the findings.
-- Treat the scope section as a boundary statement, not an investigation log.
-  State review type, coverage strategy, and meaningful limits only. Do not list
-  every file, route, controller, or component examined, and do not repeat
-  file-level detail already covered in findings.
+- Report only exclusions and verification limits that materially affect trust
+  in the conclusions. Keep them to two lines where possible; omit the section
+  when there are none. Do not repeat the request, inventory examined files,
+  list versions, or describe the investigation process.
 - Respect user-provided exclusions exactly, and note them before reviewing.
 - If exclusions conflict with a requested output section, remove the section and
   note why.
@@ -110,12 +110,15 @@ description: >-
   implementation risk that materially affects the recommendation.
 - Recommendations should say what to change. Do not drift into design coaching
   unless the implementation choice is the actual issue.
-- Place findings before summaries and recommendations.
 - Order findings by severity, then by confidence.
 
 ## Severity and Finding Format
 
 Severity must be exactly one of: `Critical`, `High`, `Medium`, `Low`.
+
+State the triggering conditions and whether the affected path is active. Rate
+impact under those conditions; do not present hypothetical activation as a
+current failure.
 
 - `Critical`: active or near-certain impact to data integrity, auth boundaries,
   or production availability.
@@ -149,8 +152,8 @@ package capability before use.
   source and documented; `review` means documented but not yet confirmed;
   `n/a` means not needed; blank means review coverage has not started, not that
   an implementation is absent.
-- Keep coverage entries as a lasting record. Record outstanding findings under
-  the relevant component using the finding format above.
+- Keep coverage entries as a lasting record of verified work and documentation.
+  Record findings and proposed fixes in the review report, not the status file.
 - Update coverage only when supported by verification and documentation.
   Working in an application does not establish package review completion.
 - Do not remove findings without approval; raise entries that appear resolved.
@@ -160,10 +163,9 @@ package capability before use.
 
 ## Output
 
-When a package status file is specified, maintain that file using the Package
-Review Procedure above. Do not create a separate dated report.
-
-Otherwise, save a dated review in the application root using the format below.
+Save a dated review report in the application root using the format below.
+When a package status file is specified, use it only for coverage tracking under
+the Package Review Procedure above. A status file does not replace the report.
 
 Filename: `code-review-{agent}-YYMMDD.md`. If that name exists, append `-2`,
 `-3`, etc.
@@ -174,31 +176,48 @@ report into chat unless the user explicitly asks.
 Do not use inline review directives (e.g. `::code-comment`) unless the user
 explicitly requests them.
 
-For dated reports, use this structure:
+### Package/Component Reports
 
-1. **Scope Reviewed**
-   - Review type and target
-   - Coverage strategy or review boundary
-   - Exclusions or meaningful limits
-   - 2–4 bullets maximum
+Use this structure:
 
-2. **Findings** — ordered by severity, using the finding format above.
+1. **Recommendation**. State the recommended approach and immediate next step
+   in a short paragraph. Choose an approach supported by the review; identify
+   any decision that genuinely needs the user's answer.
+2. **What the Application Can Rely On**. State the verified capabilities and
+   relevant conditions for using them.
+3. **What Needs Fixing Now**. Prioritise current-use blockers in dependency
+   order, independently of severity. Put prerequisites first and identify the
+   dependent work, including dependencies across layers. Say what to change
+   and where it belongs; reference findings instead of repeating their evidence.
+   If nothing blocks use, say so.
+4. **What Can Wait**. Identify deferred defects and review work that the current
+   use does not need. Distinguish unverified capabilities from known defects.
+5. **Findings**.
+6. **Verification Limits**.
 
-3. **Top Architectural Risks** — up to 5, broad reviews only.
+Keep the three decision sections even when an answer is "none". Do not add
+sprint planning, effort estimates or generic risk ratings to component reports.
 
-4. **Top Refactor Priorities** — up to 5, broad reviews only.
+Optionally include **Checked and Cleared** after the findings when a plausible
+concern was investigated and resolved. Record the conclusion and supporting
+evidence briefly so the concern is not raised again; do not inventory routine
+checks.
 
-5. **Next Sprint Action Plan** — broad reviews only; 3–7 items, highest value
-   first. For each item:
-   - **Action:** specific change to make
-   - **Why now:** immediate benefit or risk reduction
-   - **Effort:** `S`, `M`, or `L`
-   - **First step:** exact starting task
+### Broad Review Reports
 
-6. **Maintainability Risk:** `Low`, `Moderate`, or `High` with reasoning.
+Use this structure:
 
-7. **Cross-Boundary Coupling Risk:** `Low`, `Moderate`, or `High` with
-   reasoning.
+1. **Findings**.
+2. **Top Architectural Risks**. Up to 5.
+3. **Top Refactor Priorities**. Up to 5.
+4. **Next Sprint Action Plan**. 3–7 items, highest value first. For each item:
+    - **Action:** specific change to make
+    - **Why now:** immediate benefit or risk reduction
+    - **Effort:** `S`, `M`, or `L`
+    - **First step:** exact starting task
+5. **Maintainability Risk:** `Low`, `Moderate`, or `High` with reasoning.
+6. **Cross-Boundary Coupling Risk:** `Low`, `Moderate`, or `High` with reasoning.
+7. **Verification Limits**.
 
 ## No-Finding Reviews
 

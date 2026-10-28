@@ -99,6 +99,10 @@ description: >-
   for different dimensions or severity levels.
 - Do not report low-value or repetitive findings that do not materially change
   risk, behaviour, or maintainability.
+- Distinguish broken behaviour from unfinished build work and unconfirmed
+  requirements. A defect violates an established contract or requirement;
+  an incomplete example or planned feature alone is not a defect. Put build
+  work in actions and unresolved intent in questions or deferred decisions.
 - Only report issues you can defend with concrete code evidence or a clear
   behavioural risk.
 - Prefer root-cause fixes over style-only commentary.
@@ -167,8 +171,9 @@ Save a dated review report in the application root using the format below.
 When a package status file is specified, use it only for coverage tracking under
 the Package Review Procedure above. A status file does not replace the report.
 
-Filename: `code-review-{agent}-YYMMDD.md`. If that name exists, append `-2`,
-`-3`, etc.
+Filename: `{agent}-{target}-YYMMDD.md`. Use a short, descriptive kebab-case
+review target, for example `codex-navbar-261028.md`. If that name exists,
+append `-2`, `-3`, etc.
 
 Return a concise summary in chat with the report path. Do not paste the full
 report into chat unless the user explicitly asks.
@@ -178,30 +183,29 @@ explicitly requests them.
 
 ### Package/Component Reports
 
-Use this structure:
+Use these sections:
 
-1. **Recommendation**. State the recommended approach and immediate next step
-   in a short paragraph. Choose an approach supported by the review; identify
-   any decision that genuinely needs the user's answer.
-2. **What the Application Can Rely On**. State the verified capabilities and
-   relevant conditions for using them.
-3. **What Needs Fixing Now**. Prioritise current-use blockers in dependency
-   order, independently of severity. Put prerequisites first and identify the
-   dependent work, including dependencies across layers. Say what to change
-   and where it belongs; reference findings instead of repeating their evidence.
-   If nothing blocks use, say so.
-4. **What Can Wait**. Identify deferred defects and review work that the current
-   use does not need. Distinguish unverified capabilities from known defects.
-5. **Findings**.
-6. **Verification Limits**.
+1. **Next Actions**. Give one ordered list of concrete actions in dependency
+   order, naming the owning package or application. Distinguish repairs from
+   planned build work and decisions needing confirmation. Reference findings
+   for evidence; do not repeat it here. Base the sequence on the agreed workflow
+   and requirements, not merely on which draft files exist.
+2. **Findings**. Record confirmed defects using the finding format above.
+3. **Deferred Work**. List specific defects, review targets, or decisions that
+   can wait. Reference an existing finding rather than describing it again.
+4. **Verification Limits**. State only unchecked behaviour or failed checks
+   that materially affect the recommendation. Do not narrate the investigation.
 
-Keep the three decision sections even when an answer is "none". Do not add
-sprint planning, effort estimates or generic risk ratings to component reports.
+If there are no defects, say so under Findings. Omit Deferred Work and
+Verification Limits when there is nothing material to report. Do not add
+separate recommendation, capability inventory, resolved-history, sprint-planning,
+or generic risk-rating sections. Mention a verified capability only where it
+supports an action or explains why a proposed change is unnecessary.
 
-Optionally include **Checked and Cleared** after the findings when a plausible
-concern was investigated and resolved. Record the conclusion and supporting
-evidence briefly so the concern is not raised again; do not inventory routine
-checks.
+Before saving, check that every action follows the agreed requirements, every
+finding establishes a defect under stated conditions, and each fact is stated
+once. Keep information only when it changes an action, priority, or confidence
+in the result. Updating an existing report does not require a new report.
 
 ### Broad Review Reports
 

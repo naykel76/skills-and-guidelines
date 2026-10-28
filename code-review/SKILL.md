@@ -1,14 +1,15 @@
 ---
 name: code-review
 description: >-
-  Use this skill whenever the user asks for a code review, package review, or
-  architectural audit. Delivers severity-ranked findings with evidence and
-  fixes, not general advice. Always saves the review as a markdown file and
-  returns a concise summary in chat.
+  Use this skill when the user requests a dedicated code review, package review,
+  or architectural audit. Do not use it for routine checks, walkthroughs, or
+  verification performed while developing a component or updating documentation.
 ---
 
 ## Intent
 
+- Treat incidental checks during ongoing work as part of that work, even when
+  the user uses the word "review".
 - Perform analysis only unless the user explicitly asks for edits.
 - Prioritize actionable, evidence-based findings over general advice.
 
@@ -157,7 +158,7 @@ package capability before use.
   `n/a` means not needed; blank means review coverage has not started, not that
   an implementation is absent.
 - Keep coverage entries as a lasting record of verified work and documentation.
-  Record findings and proposed fixes in the review report, not the status file.
+  Record findings and proposed fixes in chat or an authorised report, not the status file.
 - Update coverage only when supported by verification and documentation.
   Working in an application does not establish package review completion.
 - Do not remove findings without approval; raise entries that appear resolved.
@@ -167,16 +168,17 @@ package capability before use.
 
 ## Output
 
-Save a dated review report in the application root using the format below.
-When a package status file is specified, use it only for coverage tracking under
-the Package Review Procedure above. A status file does not replace the report.
+Report findings in chat by default. Save only when the user requests or confirms
+it. If a report would be useful, ask whether to save it after presenting findings.
+
+Save authorised reports in the application root. When continuing the same
+review, prefer updating its report over creating another for each step.
 
 Filename: `{agent}-{target}-YYMMDD.md`. Use a short, descriptive kebab-case
 review target, for example `codex-navbar-261028.md`. If that name exists,
 append `-2`, `-3`, etc.
 
-Return a concise summary in chat with the report path. Do not paste the full
-report into chat unless the user explicitly asks.
+When a report is saved, return a concise summary in chat with its path.
 
 Do not use inline review directives (e.g. `::code-comment`) unless the user
 explicitly requests them.
